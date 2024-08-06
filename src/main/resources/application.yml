@@ -1,1 +1,9 @@
-spring.application.name=localstack
+spring:
+  application:
+    name: localstack
+  cloud:
+    aws:
+      secretsmanager:
+        endpoint: http://localhost:4566
+  config:
+    import: aws-secretsmanager:/secret/localstack
