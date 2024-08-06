@@ -3,7 +3,10 @@ spring:
     name: localstack
   cloud:
     aws:
-      secretsmanager:
-        endpoint: http://localhost:4566
+      endpoint: http://localhost:4566
+      sqs:
+        queue:
+          region: ${aws.region}
+          auto-create: true
   config:
     import: aws-secretsmanager:/secret/localstack
