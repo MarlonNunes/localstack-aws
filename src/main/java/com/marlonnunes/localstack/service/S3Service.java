@@ -23,10 +23,18 @@ public class S3Service {
     @Value("${aws.bucket-name}")
     private String bucketName;
 
+    @Value("${aws.secret-key}")
+    String mySecretKey;
+
     private final S3Template s3Template;
     private final Publisher publisher;
 
-    public String uploadImage(String key, MultipartFile file) {
+    public String uploadImage(String secretKey, MultipartFile file) {
+
+        if(!mySecretKey.equals(secretKey)){
+            return "Invalid secret key";
+        }
+
         InputStream inputStream = null;
         try {
             inputStream = file.getInputStream();
@@ -38,7 +46,7 @@ public class S3Service {
 
         ObjectMetadata metadata = ObjectMetadata.builder().contentType(contentType).build();
 
-        S3Resource s3Response = s3Template.upload(bucketName, key, inputStream, metadata);
+        S3Resource s3Response = s3Template.upload(bucketName, file.getOriginalFilename(), inputStream, metadata);
         String url;
         try {
             url = s3Response.getURL().toString();
@@ -47,7 +55,7 @@ public class S3Service {
             return "Error getting URL from S3";
         }
 
-        this.publisher.publish(new MessageDTO(key, url));
+        this.publisher.publish(new MessageDTO(file.getOriginalFilename(), url));
 
         return url;
     }

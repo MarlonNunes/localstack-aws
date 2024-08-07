@@ -14,7 +14,7 @@ public class UploadController {
     private final S3Service s3Service;
 
     @PostMapping("/upload")
-    public String upload(@RequestParam("file") MultipartFile file) {
-        return s3Service.uploadImage(file.getOriginalFilename(), file);
+    public String upload(@RequestParam("secretKey") String secretKey, @RequestParam("file") MultipartFile file) {
+        return s3Service.uploadImage(secretKey, file);
     }
 }

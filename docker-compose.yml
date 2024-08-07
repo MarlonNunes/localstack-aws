@@ -23,11 +23,11 @@ services:
     depends_on:
       - localstack
     volumes:
-      - "./create-secret.sh:/create-secret.sh"
+      - "./init-services.sh:/init-services.sh"
     env_file:
       - .env
     entrypoint: [ "/bin/sh", "-c" ]
-    command: ["yum install -y jq && /create-secret.sh"]
+    command: ["/init-services.sh"]
     deploy:
       resources:
         limits:

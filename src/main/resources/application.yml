@@ -3,12 +3,12 @@ spring:
     name: localstack
   cloud:
     aws:
-      endpoint: http://localhost:4566
+      endpoint: http://localhost:4566 # Define o endpoint do LocalStack.
       sqs:
         queue:
           region: ${aws.region}
-          auto-create: true
+          auto-create: true # Isso é necessário para criar a fila automaticamente.
       s3:
-        path-style-access-enabled: true
+        path-style-access-enabled: true # Isso é necessário para usar o acesso por caminho em vez do acesso por subdomínio.
   config:
-    import: aws-secretsmanager:/secret/localstack
+    import: aws-secretsmanager:/secret/localstack # Importa as configurações do AWS Secrets Manager.
