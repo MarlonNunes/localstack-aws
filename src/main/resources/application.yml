@@ -8,5 +8,7 @@ spring:
         queue:
           region: ${aws.region}
           auto-create: true
+      s3:
+        path-style-access-enabled: true
   config:
     import: aws-secretsmanager:/secret/localstack
